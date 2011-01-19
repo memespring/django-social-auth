@@ -47,6 +47,13 @@ class TwitterAuth(ConsumerBasedOAuth):
     SETTINGS_KEY_NAME = 'TWITTER_CONSUMER_KEY'
     SETTINGS_SECRET_NAME = 'TWITTER_CONSUMER_SECRET'
 
+    #Twitter returns an error if an oauth_callback url is sent
+    #so override the constructor to make sure it is blank
+    def __init__(self, request, redirect):
+        """Init method"""
+        super(ConsumerBasedOAuth, self).__init__(request, redirect)
+        self.redirect_uri = ''
+
     def user_data(self, access_token):
         """Return user data provided"""
         request = self.oauth_request(access_token, TWITTER_CHECK_AUTH)
